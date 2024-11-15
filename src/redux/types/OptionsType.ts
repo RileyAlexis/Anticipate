@@ -1,3 +1,3 @@
 export interface OptionsType {
-    dark: boolean;
+    theme: string;
 }

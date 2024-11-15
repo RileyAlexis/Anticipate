@@ -1,5 +1,7 @@
 import { Layout, Text, Button, Radio, Toggle } from '@ui-kitten/components';
 import { View } from 'react-native';
+import { EventBox } from '../components/EventBox';
+import { useEffect, useState } from 'react';
 
 interface HomeScreenProps {
     navigation: any
@@ -7,27 +9,22 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
+    const [tempDate, setTempDate] = useState(() => {
+        const newDate = new Date();
+        newDate.setDate(newDate.getDate() + 18);
+        return newDate;
+    });
+
+    const [tempDate2, setTempDate2] = useState(() => {
+        const newDate = new Date();
+        newDate.setDate(newDate.getDate() + 4);
+        return newDate;
+    });
+
     return (
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text category='h1'>
-                Home Screen
-            </Text>
-            <Text category='s1'>
-                Home Screen Sub
-            </Text>
-            <Text category='p1'>
-                P1 category text
-            </Text>
-            <Layout style={{ padding: 20 }}>
-                <Button size='large'>Kitten Button</Button>
-            </Layout>
-            <Layout style={{ padding: 20 }}>
-                <Toggle>Setting</Toggle>
-            </Layout>
-            <Layout style={{ padding: 20 }}>
-                <Radio>Radio</Radio>
-
-            </Layout>
+            <EventBox title='Grok This' dueDate={tempDate} color="#71009D" />
+            <EventBox title='Destroy Capitalism' dueDate={tempDate2} color="#8C002C" />
         </Layout>
     )
 }

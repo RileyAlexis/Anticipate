@@ -3,7 +3,7 @@ import { Button, Layout, Text } from '@ui-kitten/components';
 
 //Actions
 import { addEvent } from '../redux/reducers/EventReducer';
-import { AnticipateRootState } from '../types/AnticipateRootState';
+import { AnticipateRootState } from '../redux/types/AnticipateRootState';
 import { resetStore } from '../redux/store';
 interface SettingsScreenProps {
     navigation: any
@@ -14,6 +14,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = () => {
     const dispatch = useDispatch();
 
     const handleAddEvent = () => (
+
         dispatch(addEvent({
             id: '565',
             title: 'Apocalypse',
@@ -36,16 +37,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = () => {
             </Text>
             <Button onPress={handleAddEvent}>Add New Event</Button>
             <Button onPress={resetState}>Reset State</Button>
-            <Layout>
-                {events.map((event, index) => (
-                    <Layout key={index}>
-                        <Text>{event.title}</Text>
-                        <Text>{event.color}</Text>
-                        <Text>{event.location}</Text>
-                    </Layout>
 
-                ))}
-            </Layout>
         </Layout>
 
 

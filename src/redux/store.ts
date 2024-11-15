@@ -8,7 +8,7 @@ import { createAction } from "@reduxjs/toolkit";
 import eventSlice from './reducers/EventReducer';
 import optionsSlice from './reducers/OptionsReducer';
 
-import { AnticipateRootState } from "../types/AnticipateRootState";
+import { AnticipateRootState } from "./types/AnticipateRootState";
 
 export const resetStore = createAction('RESET_STORE');
 

@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { OptionsType } from "../../types/OptionsType";
+import { OptionsType } from "../types/OptionsType";
+import { light } from "@eva-design/eva";
 
 const initalState: OptionsType = {
-    dark: true,
+    theme: 'dark',
 }
 
 const optionsSlice = createSlice({
@@ -11,7 +12,7 @@ const optionsSlice = createSlice({
     initialState: initalState,
     reducers: {
         toggleDarkMode: (state) => {
-            state.dark = !state.dark;
+            state.theme = state.theme === 'light' ? 'light' : 'dark';
         }
     }
 });
