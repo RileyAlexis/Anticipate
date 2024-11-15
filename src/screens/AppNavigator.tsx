@@ -11,37 +11,56 @@ import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/componen
 import { HomeScreen } from "./HomeScreen";
 import { SettingsScreen } from "./SettingsScreen";
 
-const Tab = createBottomTabNavigator();
+interface KittenNavBarProps {
+    navigation: any,
+    state: any
+}
+
+const TabNavigator = createBottomTabNavigator();
+
+const HomeIcon = (props: any) => (
+    <Icon {...props} name="home-outline" />
+);
+
+const SettingsIcon = (props: any) => (
+    <Icon {...props} name="settings-2-outline" />
+)
+
+const KittenNavBar: React.FC<KittenNavBarProps> = ({ navigation, state }) => {
+    return (
+        <BottomNavigation
+            selectedIndex={state.index}
+            onSelect={index => navigation.navigate(state.routeNames[index])}
+        // appearance="indicator"
+        >
+            <BottomNavigationTab icon={HomeIcon} />
+            <BottomNavigationTab icon={SettingsIcon} />
+
+        </BottomNavigation>
+    )
+}
 
 export const AppNavigator: React.FC = () => {
 
-    const HomeIcon = (props: any) => (
-        <Icon {...props} name="home-outline" />
-    );
-
-    const SettingsIcon = (props: any) => (
-        <Icon {...props} name="settings-2-outline" />
-    )
-
-
     return (
         <NavigationContainer>
-            <Tab.Navigator
+            <TabNavigator.Navigator
                 screenOptions={{
                     headerShown: false
                 }}
+                tabBar={props => <KittenNavBar {...props} />}
             >
-                <Tab.Screen name="Home" component={HomeScreen}
+                <TabNavigator.Screen name="Home" component={HomeScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => <HomeIcon style={{ tintColor: color }} width={size} height={size} />
                     }}
                 />
-                <Tab.Screen name="Settings" component={SettingsScreen}
+                <TabNavigator.Screen name="Settings" component={SettingsScreen}
                     options={{
                         tabBarIcon: ({ color, size }) => <SettingsIcon style={{ tintColor: color }} width={size} height={size} />
                     }}
                 />
-            </Tab.Navigator>
+            </TabNavigator.Navigator>
         </NavigationContainer>
     )
 }
