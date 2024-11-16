@@ -23,7 +23,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     return (
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <EventBox title='Grok This' dueDate={tempDate} color="#71009D" />
+            <EventBox title='Burn Down the Patriarchy' dueDate={tempDate} color="#71009D" />
             <EventBox title='Destroy Capitalism' dueDate={tempDate2} color="#8C002C" />
         </Layout>
     )

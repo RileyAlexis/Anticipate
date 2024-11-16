@@ -61,6 +61,7 @@ export const EventBox: React.FC<EventBoxProps> = ({ title, dueDate, color }) => 
                 borderBlockColor: hexToRgba(color, 1),
                 borderWidth: 1,
                 paddingVertical: 15,
+                borderRadius: 12,
                 margin: 5,
             }}
         >

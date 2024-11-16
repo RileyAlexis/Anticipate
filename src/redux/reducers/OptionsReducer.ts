@@ -4,21 +4,21 @@ import { OptionsType } from "../types/OptionsType";
 import { light } from "@eva-design/eva";
 
 const initalState: OptionsType = {
-    theme: 'dark',
+    theme: 'light',
 }
 
 const optionsSlice = createSlice({
     name: 'options',
     initialState: initalState,
     reducers: {
-        toggleDarkMode: (state) => {
-            state.theme = state.theme === 'light' ? 'light' : 'dark';
+        setTheme: (state, action: PayloadAction<'light' | 'dark' | 'auto'>) => {
+            state.theme = action.payload;
         }
     }
 });
 
 export const {
-    toggleDarkMode
+    setTheme,
 } = optionsSlice.actions;
 
 export default optionsSlice.reducer;
