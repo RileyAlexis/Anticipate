@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
-import { Layout, useTheme } from "@ui-kitten/components";
+import { useTheme } from "@ui-kitten/components";
 import ColorPicker, { Panel1, Swatches, colorKit, HueCircular } from "reanimated-color-picker";
 
 import type { returnedResults } from "reanimated-color-picker";
@@ -10,6 +10,8 @@ interface AnticipateColorPickerProps {
     selectedColorValue: string;
 }
 
+const { width } = Dimensions.get('window');
+const PANEL_SIZE = Math.min(width * 0.45, 300);
 
 export const AninticipateColorPicker: React.FC<AnticipateColorPickerProps> = ({ callback, selectedColorValue }) => {
     const theme = useTheme();
@@ -67,8 +69,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     panelStyle: {
-        width: '70%',
-        height: '70%',
+        width: PANEL_SIZE,
+        height: PANEL_SIZE,
         alignSelf: 'center',
         borderRadius: 16,
     },
