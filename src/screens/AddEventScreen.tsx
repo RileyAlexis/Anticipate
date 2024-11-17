@@ -30,7 +30,7 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
     const maxDate = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate() + 1);
     const usDateFormat = new NativeDateService('en', { format: 'MMMM DD YYYY' });
 
-    const colorSwatch = () => {
+    const ColorSwatch = () => {
         return (
             <View style={{ width: '30%', height: '100%', backgroundColor: selectedColor }} />
         )
@@ -76,15 +76,21 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
                         dateService={usDateFormat}
                     />
                 </Layout>
-                <Layout style={{ paddingVertical: 15 }}>
+                <Layout style={{
+                    paddingVertical: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+
+
+                }}>
                     <Button
                         onPress={() => setIsColorPickerVisible(() => !isColorPickerVisible)}
-                        appearance='outline'
-                        accessoryLeft={colorSwatch}
-                        accessoryRight={colorSwatch}
+                        appearance='filled'
                     >
                         Select Color
                     </Button>
+                    <View style={{ width: '20%', height: '100%', backgroundColor: selectedColor, justifyContent: 'flex-end' }} />
+
 
                     <Modal
                         visible={isColorPickerVisible}

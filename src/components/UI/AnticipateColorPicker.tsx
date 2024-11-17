@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     panelStyle: {
-        width: '65%',
-        height: '65%',
+        width: '70%',
+        height: '70%',
         alignSelf: 'center',
         borderRadius: 16,
     },
