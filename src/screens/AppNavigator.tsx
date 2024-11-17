@@ -10,6 +10,7 @@ import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/componen
 //Screens
 import { HomeScreen } from "./HomeScreen";
 import { SettingsScreen } from "./SettingsScreen";
+import { AddEventScreen } from "./AddEventScreen";
 
 interface KittenNavBarProps {
     navigation: any,
@@ -22,8 +23,16 @@ const HomeIcon = (props: any) => (
     <Icon {...props} name="home-outline" />
 );
 
+const CalendarIcon = (props: any) => (
+    <Icon {...props} name="calendar-outline" />
+)
+
 const SettingsIcon = (props: any) => (
     <Icon {...props} name="settings-2-outline" />
+)
+
+const PlusIcon = (props: any) => (
+    <Icon {...props} name="plus-outline" />
 )
 
 const KittenNavBar: React.FC<KittenNavBarProps> = ({ navigation, state }) => {
@@ -33,7 +42,8 @@ const KittenNavBar: React.FC<KittenNavBarProps> = ({ navigation, state }) => {
             onSelect={index => navigation.navigate(state.routeNames[index])}
         // appearance="indicator"
         >
-            <BottomNavigationTab icon={HomeIcon} />
+            <BottomNavigationTab icon={PlusIcon} />
+            <BottomNavigationTab icon={CalendarIcon} />
             <BottomNavigationTab icon={SettingsIcon} />
 
         </BottomNavigation>
@@ -50,16 +60,9 @@ export const AppNavigator: React.FC = () => {
                 }}
                 tabBar={props => <KittenNavBar {...props} />}
             >
-                <TabNavigator.Screen name="Home" component={HomeScreen}
-                    options={{
-                        tabBarIcon: ({ color, size }) => <HomeIcon style={{ tintColor: color }} width={size} height={size} />
-                    }}
-                />
-                <TabNavigator.Screen name="Settings" component={SettingsScreen}
-                    options={{
-                        tabBarIcon: ({ color, size }) => <SettingsIcon style={{ tintColor: color }} width={size} height={size} />
-                    }}
-                />
+                <TabNavigator.Screen name="AddEvent" component={AddEventScreen} />
+                <TabNavigator.Screen name="Home" component={HomeScreen} />
+                <TabNavigator.Screen name="Settings" component={SettingsScreen} />
             </TabNavigator.Navigator>
         </NavigationContainer>
     )
