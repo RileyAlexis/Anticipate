@@ -4,7 +4,7 @@ import { OptionsType } from "../types/OptionsType";
 import { light } from "@eva-design/eva";
 
 const initalState: OptionsType = {
-    theme: 'light',
+    theme: 'auto',
 }
 
 const optionsSlice = createSlice({

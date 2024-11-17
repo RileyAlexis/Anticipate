@@ -26,6 +26,7 @@
     "react-native-screens": "^4.1.0",
     "react-native-svg": "^15.9.0",
     "react-redux": "^9.1.2",
+    "reanimated-color-picker": "^3.0.4",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0"
   },
