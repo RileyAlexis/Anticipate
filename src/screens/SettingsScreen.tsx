@@ -9,6 +9,7 @@ import { setTheme } from '../redux/reducers/OptionsReducer';
 //Types
 import { AnticipateRootState } from '../redux/types/AnticipateRootState';
 import { useEffect } from 'react';
+import { ThreeStateToggle } from '../components/UI/ThreeStateToggle';
 
 interface SettingsScreenProps {
     navigation: any
@@ -47,18 +48,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = () => {
             </Text>
             <Button onPress={handleAddEvent}>Add New Event</Button>
             <Button onPress={resetState}>Reset State</Button>
-            <ButtonGroup>
-                <Button
-                    status={options.theme === 'light' ? 'primary' : 'basic'}
-                    onPress={() => dispatch(setTheme('light'))}>Light</Button>
-                <Button
-                    status={options.theme === 'dark' ? 'primary' : 'basic'}
-                    onPress={() => dispatch(setTheme('dark'))}>Dark</Button>
-                <Button
-                    status={options.theme === 'auto' ? 'primary' : 'basic'}
-                    onPress={() => dispatch(setTheme('auto'))}>auto</Button>
-            </ButtonGroup>
-
+            <ThreeStateToggle value={options.theme} onChange={setTheme} />
         </Layout>
 
 

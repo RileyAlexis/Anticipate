@@ -1,3 +1,5 @@
 export interface OptionsType {
-    theme: string;
+    theme: ThemeType
 }
+
+export type ThemeType = 'light' | 'dark' | 'auto';
