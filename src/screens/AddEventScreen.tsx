@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button } from '@ui-kitten/components';
 
 //Components
@@ -29,6 +29,12 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
     const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
     const maxDate = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate() + 1);
     const usDateFormat = new NativeDateService('en', { format: 'MMMM DD YYYY' });
+
+    const colorSwatch = () => {
+        return (
+            <View style={{ width: '30%', height: '100%', backgroundColor: selectedColor }} />
+        )
+    }
 
     const handleTitleInput = (title: string) => {
         setEventTitle(title);
@@ -73,6 +79,9 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
                 <Layout style={{ paddingVertical: 15 }}>
                     <Button
                         onPress={() => setIsColorPickerVisible(() => !isColorPickerVisible)}
+                        appearance='outline'
+                        accessoryLeft={colorSwatch}
+                        accessoryRight={colorSwatch}
                     >
                         Select Color
                     </Button>
