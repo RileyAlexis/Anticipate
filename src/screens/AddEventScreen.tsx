@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button } from '@ui-kitten/components';
 
-import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button, Card } from '@ui-kitten/components';
-import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider } from 'reanimated-color-picker';
+//Components
 import { AninticipateColorPicker } from '../components/UI/AnticipateColorPicker';
 
 interface AddEventScreenProps {
@@ -77,6 +78,10 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
                         visible={isColorPickerVisible}
                         onBackdropPress={() => setIsColorPickerVisible(() => !isColorPickerVisible)}
                         animationType='slide'
+                        backdropStyle={styles.modalBackdrop}
+                        style={{
+                            width: '90%',
+                        }}
                     >
                         <AninticipateColorPicker />
 
@@ -88,3 +93,11 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
         </Layout >
     )
 }
+
+const styles = StyleSheet.create({
+    modalBackdrop: {
+        backgroundColor: 'rgba(0,0,0, 0.5)',
+
+
+    }
+})
