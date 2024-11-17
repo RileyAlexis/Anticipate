@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Text, useTheme } from '@ui-kitten/components';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
 
 //Types
 import { ThemeType } from '../../redux/types/OptionsType';
@@ -18,7 +18,7 @@ export const ThreeStateToggle: React.FC<ThreeStateToggleProps> = ({ value, onCha
     };
 
     return (
-        <View
+        <Layout
             style={[
                 styles.container,
                 { borderColor: theme['border-basic-color-3'] },
@@ -78,7 +78,7 @@ export const ThreeStateToggle: React.FC<ThreeStateToggleProps> = ({ value, onCha
                     Auto
                 </Text>
             </TouchableOpacity>
-        </View>
+        </Layout>
     );
 };
 

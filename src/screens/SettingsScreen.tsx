@@ -36,11 +36,6 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = () => {
         dispatch(resetStore());
     }
 
-    useEffect(() => {
-        console.log(options.theme)
-    }, [options.theme])
-
-
     return (
         <Layout style={{ flex: 1, alignItems: 'center' }}>
             <Text style={{ fontSize: 25 }}>
@@ -48,7 +43,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = () => {
             </Text>
             <Button onPress={handleAddEvent}>Add New Event</Button>
             <Button onPress={resetState}>Reset State</Button>
-            <ThreeStateToggle value={options.theme} onChange={setTheme} />
+            <ThreeStateToggle value={options.theme} onChange={(newTheme) => dispatch(setTheme(newTheme))} />
         </Layout>
 
 

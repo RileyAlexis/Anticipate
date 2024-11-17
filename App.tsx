@@ -1,58 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { SafeAreaView, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppNavigator } from './src/screens/AppNavigator';
 
-//Redux
+// Redux
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { storeInstance, persistor } from './src/redux/store';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-//Actions
-import { setTheme } from './src/redux/reducers/OptionsReducer';
-
-//Theme and UI
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+// Theme and UI
+import { ApplicationProvider, IconRegistry, Layout, useTheme } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { Appearance } from 'react-native';
-import { default as theme } from './src/base-theme.json';
-// import { default as mapping } from './src/mapping.json';
 import * as eva from '@eva-design/eva';
 
-//Types
+// Types
 import { AnticipateRootState } from './src/redux/types/AnticipateRootState';
-import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
 
-
-
-function AppContent() {
+function ThemedAppContent() {
   const themeOption = useSelector((state: AnticipateRootState) => state.options.theme);
-
   const systemTheme = useColorScheme() || 'light';
   const currentTheme = themeOption === 'auto' ? systemTheme : themeOption;
 
   return (
-    <ApplicationProvider {...eva}
-      theme={currentTheme === 'dark' ? eva.dark : eva.light}
-    >
+    <ApplicationProvider {...eva} theme={currentTheme === 'dark' ? eva.dark : eva.light}>
       <PersistGate loading={null} persistor={persistor}>
         <IconRegistry icons={EvaIconsPack} />
-        <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.0)' }}>
+        <ThemedContainer>
           <SafeAreaView style={{ flex: 1 }}>
             <AppNavigator />
           </SafeAreaView>
-        </GestureHandlerRootView>
+        </ThemedContainer>
       </PersistGate>
     </ApplicationProvider>
-  )
+  );
 }
 
+function ThemedContainer({ children }: { children: React.ReactNode }) {
+  const theme = useTheme();
+  const backgroundColor = theme['background-basic-color-1'];
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor }}>
+      <Layout style={{ flex: 1, backgroundColor }}>{children}</Layout>
+    </GestureHandlerRootView>
+  );
+}
 
 function App(): React.JSX.Element {
   return (
     <Provider store={storeInstance}>
-      <AppContent />
+      <ThemedAppContent />
     </Provider>
   );
 }
