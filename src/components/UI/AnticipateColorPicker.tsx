@@ -5,9 +5,15 @@ import ColorPicker, { Panel1, Swatches, colorKit, HueCircular } from "reanimated
 
 import type { returnedResults } from "reanimated-color-picker";
 
-export const AninticipateColorPicker: React.FC = () => {
+interface AnticipateColorPickerProps {
+    callback: (color: returnedResults) => void;
+    selectedColorValue: string;
+}
+
+
+export const AninticipateColorPicker: React.FC<AnticipateColorPickerProps> = ({ callback, selectedColorValue }) => {
     const theme = useTheme();
-    const selectedColor = useSharedValue('#FFFFFF');
+    const selectedColor = useSharedValue(selectedColorValue);
     const backgroundColorStyle = useAnimatedStyle(() => ({ backgroundColor: selectedColor.value, borderRadius: 20 }));
     const customSwatches = new Array(6).fill('#fff').map(() => colorKit.randomRgbColor().hex());
 
@@ -16,10 +22,15 @@ export const AninticipateColorPicker: React.FC = () => {
         selectedColor.value = color.hex;
     };
 
+    const onCompletedSelect = (color: returnedResults) => {
+        callback(color);
+        selectedColor.value = color.hex;
+    }
+
     return (
         <Animated.View style={[styles.container, backgroundColorStyle]}>
             <View style={[styles.pickerContainer, { borderColor: theme['color-primary-default-border'], borderWidth: 2 }]}>
-                <ColorPicker value={selectedColor.value} sliderThickness={20} thumbSize={40} onChange={onColorSelect} boundedThumb>
+                <ColorPicker value={selectedColor.value} sliderThickness={20} thumbSize={40} onChange={onColorSelect} onComplete={onCompletedSelect} boundedThumb>
                     <HueCircular containerStyle={styles.hueContainer} thumbShape="pill" thumbColor={theme['color-basic-400']}>
                         <Panel1 style={styles.panelStyle} />
                     </HueCircular>

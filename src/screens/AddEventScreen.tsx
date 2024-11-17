@@ -5,6 +5,9 @@ import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Mod
 //Components
 import { AninticipateColorPicker } from '../components/UI/AnticipateColorPicker';
 
+//Types
+import { returnedResults } from 'reanimated-color-picker';
+
 interface AddEventScreenProps {
     navigation: any
 }
@@ -19,7 +22,7 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
 
     const [eventTitle, setEventTitle] = useState<string>();
     const [dueDate, setDueDate] = useState<Date>();
-    const [selectedColor, setSelectedColor] = useState<string>('#FFFFFF');
+    const [selectedColor, setSelectedColor] = useState<string>('#FFFFF0');
     const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
 
     const now = new Date();
@@ -42,10 +45,10 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
         }
     }
 
-    const handleColorSelect = (color: any) => {
+    const handleColorSelect = (color: returnedResults) => {
         console.log('Color', color);
-        setSelectedColor(color);
-        setIsColorPickerVisible(() => !isColorPickerVisible);
+        setSelectedColor(color.hex);
+        // setIsColorPickerVisible(() => !isColorPickerVisible);
     }
 
     return (
@@ -83,7 +86,7 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
                             width: '90%',
                         }}
                     >
-                        <AninticipateColorPicker />
+                        <AninticipateColorPicker callback={handleColorSelect} selectedColorValue={selectedColor} />
 
 
                     </Modal>
