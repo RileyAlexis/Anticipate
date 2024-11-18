@@ -1,13 +1,20 @@
-import { Layout, Text, Button, Radio, Toggle } from '@ui-kitten/components';
-import { View } from 'react-native';
-import { EventBox } from '../components/EventBox';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Layout, Text, Button, Radio, Toggle } from '@ui-kitten/components';
+
+//Components
+import { EventBox } from '../components/EventBox';
+
+//Types
+import { AnticipateRootState } from '../redux/types/AnticipateRootState';
 
 interface HomeScreenProps {
     navigation: any
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+
+    const events = useSelector((state: AnticipateRootState) => state.events);
 
     const [tempDate, setTempDate] = useState(() => {
         const newDate = new Date();
@@ -23,8 +30,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     return (
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <EventBox title='Burn Down the Patriarchy' dueDate={tempDate} color="#71009D" />
-            <EventBox title='Destroy Capitalism' dueDate={tempDate2} color="#8C002C" />
+            {events.map((item) => (
+                <EventBox key={item.id} title={item.title} dueDate={item.dueDate} color={item.color} />
+            ))}
         </Layout>
     )
 }

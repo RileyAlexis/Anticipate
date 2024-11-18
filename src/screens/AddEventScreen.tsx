@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
-import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button } from '@ui-kitten/components';
+import { useSelector, useDispatch } from 'react-redux';
+import { StyleSheet, Platform, useColorScheme, Appearance } from 'react-native';
+import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button, Popover } from '@ui-kitten/components';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 //Components
 import { AninticipateColorPicker } from '../components/UI/AnticipateColorPicker';
+
+//Actions
+import { addEvent } from '../redux/reducers/EventReducer';
 
 //Types
 import { returnedResults } from 'reanimated-color-picker';
@@ -21,7 +25,9 @@ const calendarIcon = (props: any) => (
 
 export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) => {
     const theme = useTheme();
+    const [colorScheme, setColorScheme] = useState(useColorScheme());
     const backgroundColor = theme['background-basic-color-1'];
+    const dispatch = useDispatch();
 
     const [eventTitle, setEventTitle] = useState<string>();
     const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -34,11 +40,6 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
     const maxDate = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate() + 1);
     const usDateFormat = new NativeDateService('en', { format: 'MMMM DD YYYY' });
 
-    const ColorSwatch = () => {
-        return (
-            <View style={{ width: '30%', height: '100%', backgroundColor: selectedColor }} />
-        )
-    }
 
     const handleTitleInput = (title: string) => {
         setEventTitle(title);
@@ -90,12 +91,25 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
         setSelectedColor(color.hex);
     }
 
+    const addNewEvent = () => {
+
+        dispatch(addEvent({
+            id: eventTitle,
+            title: eventTitle,
+            dueDate: dueDate,
+            color: selectedColor,
+            location: '',
+            notes: ''
+        }));
+
+    }
+
     useEffect(() => {
-        console.log('Time:', dueDate.getHours(), ' ', dueDate.getMinutes());
-    })
+        console.log('colorScheme', colorScheme);
+    }, [colorScheme])
 
     return (
-        <Layout style={{ flex: 1, backgroundColor: backgroundColor, width: '100%' }}>
+        <Layout style={{ flex: 1, backgroundColor: backgroundColor, width: '100%', justifyContent: 'space-evenly' }}>
             <Layout style={{ marginTop: 25, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                 <Text category='h4'>Add New Event</Text>
             </Layout>
@@ -117,13 +131,15 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
                     paddingVertical: 15,
 
                 }}>
+                    {/* Time Selector */}
                     <DateTimePicker
                         value={dueDate}
                         mode="time"
                         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                         is24Hour={is24Hour}
                         onChange={handleTimeChange}
-                        themeVariant={theme['background-basic-color-1'] === '#ffffff' ? 'light' : 'dark'}
+                        themeVariant={colorScheme === 'dark' ? 'dark' : 'light'}
+                        textColor={colorScheme === 'light' ? 'silver' : 'lightgray'}
                     />
                 </Layout>
                 <Layout style={{
@@ -160,11 +176,10 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
                     }}
                 >
                     <AninticipateColorPicker callback={handleColorSelect} selectedColorValue={selectedColor} />
-
-
                 </Modal>
 
             </Layout>
+            <Button onPress={addNewEvent}>Submit</Button>
         </Layout >
     )
 }
@@ -172,7 +187,5 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
 const styles = StyleSheet.create({
     modalBackdrop: {
         backgroundColor: 'rgba(0,0,0, 0.5)',
-
-
     }
 })
