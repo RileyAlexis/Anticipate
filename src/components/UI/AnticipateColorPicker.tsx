@@ -52,17 +52,14 @@ const styles = StyleSheet.create({
     pickerContainer: {
         alignSelf: 'center',
         width: '100%',
-        backgroundColor: '#00000000',
         padding: 20,
         borderRadius: 20,
-        // shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 5,
         },
         shadowOpacity: 0.34,
         shadowRadius: 6.27,
-
         elevation: 10,
     },
     hueContainer: {
