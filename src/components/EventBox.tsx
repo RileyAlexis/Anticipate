@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 
 import { Layout, Text } from "@ui-kitten/components";
-import { default as theme } from '../base-theme.json';
 import { hexToRgba } from "../modules/hexToRGBA";
 
 interface EventBoxProps {

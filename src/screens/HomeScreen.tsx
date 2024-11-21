@@ -16,17 +16,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     const events = useSelector((state: AnticipateRootState) => state.events);
 
-    const [tempDate, setTempDate] = useState(() => {
-        const newDate = new Date();
-        newDate.setDate(newDate.getDate() + 18);
-        return newDate;
-    });
-
-    const [tempDate2, setTempDate2] = useState(() => {
-        const newDate = new Date();
-        newDate.setDate(newDate.getDate() + 4);
-        return newDate;
-    });
+    useEffect(() => {
+        console.log(events);
+    })
 
     return (
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

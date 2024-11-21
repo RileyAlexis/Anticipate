@@ -8,6 +8,9 @@ import { createAction } from "@reduxjs/toolkit";
 import eventSlice from './reducers/EventReducer';
 import optionsSlice from './reducers/OptionsReducer';
 
+//Redux serialization/deserialization
+import { dateTransform } from "./dateTransform";
+
 import { AnticipateRootState } from "./types/AnticipateRootState";
 
 export const resetStore = createAction('RESET_STORE');
@@ -30,6 +33,7 @@ const allReducers = combineReducers({
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
+    transforms: [dateTransform],
     stateReconciler: autoMergeLevel2,
 };
 

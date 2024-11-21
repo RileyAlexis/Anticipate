@@ -29,7 +29,7 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
     const backgroundColor = theme['background-basic-color-1'];
     const dispatch = useDispatch();
 
-    const [eventTitle, setEventTitle] = useState<string>();
+    const [eventTitle, setEventTitle] = useState<string>('');
     const [dueDate, setDueDate] = useState<Date>(new Date());
     const [selectedColor, setSelectedColor] = useState<string>('#FFFFF0');
     const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
@@ -102,11 +102,8 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
             notes: ''
         }));
 
+        setEventTitle('');
     }
-
-    useEffect(() => {
-        console.log('colorScheme', colorScheme);
-    }, [colorScheme])
 
     return (
         <Layout style={{ flex: 1, backgroundColor: backgroundColor, width: '100%', justifyContent: 'space-evenly' }}>
