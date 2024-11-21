@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Layout, Text } from "@ui-kitten/components";
 
@@ -72,7 +71,6 @@ export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
                     {`${timeLeft.days} Days ${timeLeft.hours} Hours ${timeLeft.minutes} Minutes ${timeLeft.seconds} Seconds`}
                 </Text>
             </Layout>
-
         </Layout>
     )
 }

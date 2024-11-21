@@ -19,13 +19,10 @@ import { addEvent } from '../redux/reducers/EventReducer';
 import { returnedResults } from 'reanimated-color-picker';
 import { BottomTabParamList } from './AppNavigator';
 
-const calendarIcon = (props: any) => (
-    <Icon {...props} name="calendar-outline" />
-)
+//Icons
+import { CalendarIcon } from '../icons/CalendarIcon';
+import { ClockIcon } from '../icons/ClockIcon';
 
-const clockIcon = (props: any) => (
-    <Icon {...props} name="clock-outline" />
-)
 
 export const AddEventScreen: React.FC = () => {
     const theme = useTheme();
@@ -137,7 +134,7 @@ export const AddEventScreen: React.FC = () => {
                 <Layout style={{ paddingVertical: 10 }}>
                     {/* Date picker */}
                     <Datepicker
-                        accessoryRight={calendarIcon}
+                        accessoryRight={CalendarIcon}
                         date={dueDate}
                         onSelect={nextDate => handleDateChange(nextDate)}
                         min={minDate}
@@ -154,7 +151,7 @@ export const AddEventScreen: React.FC = () => {
                             <Button
                                 style={{ width: '100%' }}
                                 appearance='outline'
-                                accessoryRight={clockIcon}
+                                accessoryRight={ClockIcon}
                                 onPress={() => setIsTimePickerVisible(() => !isTimePickerVisible)}
                             >
                                 {`Selected Time: ${formatTime(dueDate)}`}</Button>

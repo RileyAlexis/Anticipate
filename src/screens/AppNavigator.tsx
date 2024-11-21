@@ -10,6 +10,11 @@ import { HomeScreen } from "./HomeScreen";
 import { SettingsScreen } from "./SettingsScreen";
 import { AddEventScreen } from "./AddEventScreen";
 
+//Icons
+import { SettingsIcon } from "../icons/SettingsIcon";
+import { PlusIcon } from "../icons/PlusIcon";
+import { CalendarIcon } from "../icons/CalendarIcon";
+
 interface KittenNavBarProps {
     navigation: any,
     state: any
@@ -22,22 +27,6 @@ export type BottomTabParamList = {
 }
 
 const TabNavigator = createBottomTabNavigator<BottomTabParamList>();
-
-const HomeIcon = (props: any) => (
-    <Icon {...props} name="home-outline" />
-);
-
-const CalendarIcon = (props: any) => (
-    <Icon {...props} name="calendar-outline" />
-)
-
-const SettingsIcon = (props: any) => (
-    <Icon {...props} name="settings-2-outline" />
-)
-
-const PlusIcon = (props: any) => (
-    <Icon {...props} name="plus-outline" />
-)
 
 const KittenNavBar: React.FC<KittenNavBarProps> = ({ navigation, state }) => {
     return (
