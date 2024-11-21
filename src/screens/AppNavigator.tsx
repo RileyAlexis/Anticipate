@@ -5,8 +5,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 //UI Kitten
 import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
 
-
-
 //Screens
 import { HomeScreen } from "./HomeScreen";
 import { SettingsScreen } from "./SettingsScreen";
@@ -17,7 +15,13 @@ interface KittenNavBarProps {
     state: any
 }
 
-const TabNavigator = createBottomTabNavigator();
+export type BottomTabParamList = {
+    AddEvent: undefined;
+    Home: undefined;
+    Settings: undefined;
+}
+
+const TabNavigator = createBottomTabNavigator<BottomTabParamList>();
 
 const HomeIcon = (props: any) => (
     <Icon {...props} name="home-outline" />

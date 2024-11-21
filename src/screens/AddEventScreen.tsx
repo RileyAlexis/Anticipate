@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { StyleSheet, Platform, useColorScheme, Appearance } from 'react-native';
 import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button, Popover } from '@ui-kitten/components';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -14,17 +15,15 @@ import { addEvent } from '../redux/reducers/EventReducer';
 //Types
 import { returnedResults } from 'reanimated-color-picker';
 import { Pressable } from 'react-native-gesture-handler';
-
-interface AddEventScreenProps {
-    navigation: any
-}
+import { BottomTabParamList } from './AppNavigator';
 
 const calendarIcon = (props: any) => (
     <Icon {...props} name="calendar-outline" />
 )
 
-export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) => {
+export const AddEventScreen: React.FC = () => {
     const theme = useTheme();
+    const navigation = useNavigation<NavigationProp<BottomTabParamList>>();
     const [colorScheme, setColorScheme] = useState(useColorScheme());
     const backgroundColor = theme['background-basic-color-1'];
     const dispatch = useDispatch();
@@ -103,6 +102,7 @@ export const AddEventScreen: React.FC<AddEventScreenProps> = ({ navigation }) =>
         }));
 
         setEventTitle('');
+        navigation.navigate('Home');
     }
 
     return (
