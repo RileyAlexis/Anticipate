@@ -1,24 +1,30 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { Pressable } from 'react-native-gesture-handler';
 import { StyleSheet, Platform, useColorScheme, Appearance } from 'react-native';
-import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button, Popover } from '@ui-kitten/components';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { Layout, Text, Datepicker, Icon, useTheme, Input, NativeDateService, Modal, Button, Popover, Toggle, Card } from '@ui-kitten/components';
 
+//Modules
+import { formatTime } from '../modules/formatTime';
 
 //Components
 import { AninticipateColorPicker } from '../components/UI/AnticipateColorPicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 //Actions
 import { addEvent } from '../redux/reducers/EventReducer';
 
 //Types
 import { returnedResults } from 'reanimated-color-picker';
-import { Pressable } from 'react-native-gesture-handler';
 import { BottomTabParamList } from './AppNavigator';
 
 const calendarIcon = (props: any) => (
     <Icon {...props} name="calendar-outline" />
+)
+
+const clockIcon = (props: any) => (
+    <Icon {...props} name="clock-outline" />
 )
 
 export const AddEventScreen: React.FC = () => {
@@ -29,9 +35,21 @@ export const AddEventScreen: React.FC = () => {
     const dispatch = useDispatch();
 
     const [eventTitle, setEventTitle] = useState<string>('');
-    const [dueDate, setDueDate] = useState<Date>(new Date());
-    const [selectedColor, setSelectedColor] = useState<string>('#FFFFF0');
+    const [dueDate, setDueDate] = useState<Date>(() => {
+        const now = new Date();
+        const tomorrow = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1, // Add one day to today's date
+            23, // Hours for 11 PM
+            59, // Minutes
+            0, // Seconds
+        );
+        return tomorrow;
+    });
+    const [selectedColor, setSelectedColor] = useState<string>('#868686');
     const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
+    const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
     const [is24Hour, setIs24Hour] = useState(true);
 
     const now = new Date();
@@ -71,16 +89,18 @@ export const AddEventScreen: React.FC = () => {
     };
 
     const handleTimeChange = (event: any, selectedTime: Date | undefined) => {
-        if (!selectedTime) return;
+        // If no time is selected, use 11:59 PM as the default
+        const timeToUse = selectedTime || new Date(0, 0, 0, 23, 59, 0); // 11:59 PM
+
         setDueDate((prev) => {
             const currentDate = prev || new Date();
             return new Date(
                 currentDate.getFullYear(),
                 currentDate.getMonth(),
                 currentDate.getDate(),
-                selectedTime.getHours(),
-                selectedTime.getMinutes(),
-                selectedTime.getSeconds()
+                timeToUse.getHours(),
+                timeToUse.getMinutes(),
+                timeToUse.getSeconds()
             );
         });
     };
@@ -106,15 +126,16 @@ export const AddEventScreen: React.FC = () => {
     }
 
     return (
-        <Layout style={{ flex: 1, backgroundColor: backgroundColor, width: '100%', justifyContent: 'space-evenly' }}>
-            <Layout style={{ marginTop: 25, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <Layout style={{ flex: 1, backgroundColor: backgroundColor, width: '100%' }}>
+            <Layout style={{ marginTop: 25, width: '100%', justifyContent: 'flex-start', alignItems: 'center' }}>
                 <Text category='h4'>Add New Event</Text>
             </Layout>
             <Layout style={{ marginHorizontal: 10 }}>
                 <Layout style={{ paddingVertical: 15 }}>
                     <Input status='Primary' placeholder='Event Title' value={eventTitle} onChangeText={handleTitleInput} />
                 </Layout>
-                <Layout style={{ paddingVertical: 15 }}>
+                <Layout style={{ paddingVertical: 10 }}>
+                    {/* Date picker */}
                     <Datepicker
                         accessoryRight={calendarIcon}
                         date={dueDate}
@@ -125,19 +146,40 @@ export const AddEventScreen: React.FC = () => {
                     />
                 </Layout>
                 <Layout style={{
-                    paddingVertical: 15,
+                    paddingVertical: 0,
 
                 }}>
+                    <Layout style={{ justifyContent: 'space-evenly', alignItems: 'center' }}>
+                        {!isTimePickerVisible &&
+                            <Button
+                                style={{ width: '100%' }}
+                                appearance='outline'
+                                accessoryRight={clockIcon}
+                                onPress={() => setIsTimePickerVisible(() => !isTimePickerVisible)}
+                            >
+                                {`Selected Time: ${formatTime(dueDate)}`}</Button>
+                        }
+                    </Layout>
+
                     {/* Time Selector */}
-                    <DateTimePicker
-                        value={dueDate}
-                        mode="time"
-                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                        is24Hour={is24Hour}
-                        onChange={handleTimeChange}
-                        themeVariant={colorScheme === 'dark' ? 'dark' : 'light'}
-                        textColor={colorScheme === 'light' ? 'silver' : 'lightgray'}
-                    />
+                    <Modal
+                        visible={isTimePickerVisible}
+                        onBackdropPress={() => setIsTimePickerVisible(() => !isTimePickerVisible)}
+                        animationType='slide'
+                        backdropStyle={styles.modalBackdrop}
+                        style={{ width: '90%' }}>
+                        <DateTimePicker
+                            value={dueDate}
+                            mode="time"
+                            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                            is24Hour={is24Hour}
+                            onChange={handleTimeChange}
+                            themeVariant={colorScheme === 'dark' ? 'dark' : 'light'}
+                            textColor={colorScheme === 'light' ? 'silver' : 'lightgray'}
+                        />
+                    </Modal>
+
+
                 </Layout>
                 <Layout style={{
                     paddingVertical: 15,
@@ -176,13 +218,15 @@ export const AddEventScreen: React.FC = () => {
                 </Modal>
 
             </Layout>
-            <Button onPress={addNewEvent}>Submit</Button>
+            <Layout style={{ width: '90%', position: 'absolute', bottom: 20, left: '5%', right: 0 }}>
+                <Button onPress={addNewEvent}>Submit</Button>
+            </Layout>
         </Layout >
     )
 }
 
 const styles = StyleSheet.create({
     modalBackdrop: {
-        backgroundColor: 'rgba(0,0,0, 0.5)',
+        backgroundColor: 'rgba(0,0,0, 0.8)',
     }
 })
