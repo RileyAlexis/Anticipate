@@ -7,6 +7,7 @@ import { Layout, Text } from "@ui-kitten/components";
 import { hexToRgba } from "../modules/hexToRGBA";
 import { formatTime } from "../modules/formatTime";
 import { formatDate } from "../modules/formatDate";
+import { calculateTimeLeft } from "../modules/calculateTimeLeft";
 
 //Types
 import { EventType } from "../redux/types/EventType";
@@ -25,31 +26,9 @@ export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
         seconds: '',
     });
 
-    const calculateTimeLeft = () => {
-        const now = new Date();
-        const difference = dueDate.getTime() - now.getTime();
-
-        if (difference > 0) {
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference / (1000 * 60 * 60)) % 24)
-                .toString()
-                .padStart(2, '0');
-            const minutes = Math.floor((difference / (1000 * 60)) % 60)
-                .toString()
-                .padStart(2, '0');
-            const seconds = Math.floor((difference / 1000) % 60)
-                .toString()
-                .padStart(2, '0');
-
-            return { days, hours, minutes, seconds };
-        }
-
-        return { days: 0, hours: '00', minutes: '00', seconds: '00' };
-    };
-
     useEffect(() => {
         const timer = setInterval(() => {
-            setTimeLeft(calculateTimeLeft());
+            setTimeLeft(calculateTimeLeft(dueDate));
         }, 1000);
 
         return () => clearInterval(timer);
@@ -60,8 +39,8 @@ export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
             level="2"
             style={{
                 backgroundColor: hexToRgba(color, 0.7),
-                width: '95%',
-                height: '13%',
+                width: '98%',
+                height: '16%',
                 flexDirection: 'row',
                 borderBlockColor: hexToRgba(color, 1),
                 borderWidth: 1,
@@ -77,9 +56,11 @@ export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
                 paddingVertical: 6,
                 backgroundColor: 'rgba(0,0,0,0)'
             }}>
-                <Text category="h5">{title}</Text>
-                <Text category="s1">{`${formatDate(dueDate)}`}</Text>
-                <Text category="s2">{`${formatTime(dueDate)}`}</Text>
+                <Text category="h6">{title}</Text>
+                <Layout style={{ marginTop: 35, backgroundColor: 'rgba(0,0,0,0)' }}>
+                    <Text category="s1">{`${formatDate(dueDate)}`}</Text>
+                    <Text category="s2">{`${formatTime(dueDate)}`}</Text>
+                </Layout>
             </Layout>
             <Layout style={{
                 alignItems: 'flex-end',
