@@ -7,6 +7,7 @@ import { EventBox } from '../components/EventBox';
 
 //Types
 import { AnticipateRootState } from '../redux/types/AnticipateRootState';
+import { DraggableBox } from '../components/DraggableBox';
 
 interface HomeScreenProps {
     navigation: any
@@ -23,7 +24,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     return (
         <Layout style={{ flex: 1, paddingHorizontal: 5 }}>
             {events.map((item) => (
-                <EventBox key={item.id} event={item} />
+                <DraggableBox key={item.id}>
+                    <EventBox event={item} />
+                </DraggableBox>
             ))}
         </Layout>
     )

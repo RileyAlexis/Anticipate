@@ -43,7 +43,7 @@ export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
                 height: boxHeight,
                 flexDirection: 'row',
                 borderBlockColor: hexToRgba(color, 1),
-                borderWidth: 1,
+                borderWidth: 2,
                 borderRadius: 12,
                 marginTop: 5,
                 paddingLeft: 5,
