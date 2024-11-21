@@ -23,7 +23,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     return (
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             {events.map((item) => (
-                <EventBox key={item.id} title={item.title} dueDate={item.dueDate} color={item.color} />
+                <EventBox key={item.id} event={item} />
             ))}
         </Layout>
     )
