@@ -19,6 +19,9 @@ const eventSlice = createSlice({
         removeEvent: (state, action: PayloadAction<string>) => {
             return state.filter((event) => event.id !== action.payload);
         },
+        reorderEvents: (state, action: PayloadAction<EventType[]>) => {
+            return action.payload;
+        },
         resetEvents: () => initalState,
     },
 });
@@ -27,6 +30,7 @@ export const {
     addEvent,
     updateEvent,
     removeEvent,
+    reorderEvents,
     resetEvents
 } = eventSlice.actions;
 

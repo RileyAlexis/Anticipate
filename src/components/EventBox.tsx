@@ -13,10 +13,12 @@ import { EventType } from "../redux/types/EventType";
 import { MoreVerticalOutline } from "../icons/MoreVerticalOutline";
 
 interface EventBoxProps {
-    event: EventType
+    event: EventType;
+    isActive: boolean;
+    onLongPress?: () => void;
 }
 
-export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
+export const EventBox: React.FC<EventBoxProps> = ({ event, isActive, onLongPress }) => {
     const { height, width } = Dimensions.get('window');
     const boxHeight = height * 0.13;
     const { title, dueDate, color } = event;
@@ -39,15 +41,15 @@ export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
         <Layout
             level="2"
             style={{
-                backgroundColor: hexToRgba(color, 0.7),
+                backgroundColor: isActive ? hexToRgba(color, 0.9) : hexToRgba(color, 0.7),
+                transform: [{ scale: isActive ? 1.10 : 1 }],
                 height: boxHeight,
                 flexDirection: 'row',
                 borderBlockColor: hexToRgba(color, 1),
                 borderWidth: 2,
                 borderRadius: 12,
-                marginTop: 5,
-                paddingLeft: 5,
-                justifyContent: 'space-around'
+                justifyContent: 'space-around',
+
             }}
         >
             <Layout style={{

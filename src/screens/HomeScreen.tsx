@@ -9,6 +9,7 @@ import { EventBox } from '../components/EventBox';
 import { AnticipateRootState } from '../redux/types/AnticipateRootState';
 import { DraggableBox } from '../components/DraggableBox';
 import { SortableList } from '../components/SortableList';
+import { EventDragList } from '../components/EventDragList';
 
 
 
@@ -18,12 +19,7 @@ export const HomeScreen: React.FC = () => {
 
     return (
         <Layout style={{ flex: 1, paddingHorizontal: 5 }}>
-            <SortableList />
-            {/* <DraggableBox>
-                {events.map((item) => (
-                    <EventBox key={item.id} event={item} />
-                ))}
-            </DraggableBox> */}
+            <EventDragList />
         </Layout>
     )
 }

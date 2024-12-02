@@ -26,7 +26,8 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({ index, draggingInd
         })
         .onEnd(() => {
             isDragging.value = false;
-            runOnJS(onDragEnd)
+            console.log(index);
+            onDragEnd(index);
         });
 
     const animatedStyle = useAnimatedStyle(() => ({

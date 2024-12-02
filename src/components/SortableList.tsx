@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useSharedValue, runOnJS } from "react-native-reanimated";
+import { useSharedValue, runOnJS, withSpring } from "react-native-reanimated";
 
 import { Layout } from "@ui-kitten/components";
 
@@ -17,6 +17,7 @@ export const SortableList = () => {
     const [list, setList] = useState(events);
     const positions = useSharedValue(events.map((_, index) => index * separation));
     const draggingIndex = useSharedValue(-1);
+
     const updateOrder = (from: number, to: number) => {
         const updatedList = [...list];
         const [movedItem] = updatedList.splice(from, 1);
@@ -27,13 +28,13 @@ export const SortableList = () => {
     const handleDragEnd = (dragIndex: number) => {
         "worklet";
         const newY = Math.round(positions.value[dragIndex] / separation) * separation;
-        positions.value[dragIndex] = newY;
+        positions.value[dragIndex] = withSpring(newY); // Smooth transition to final position
 
         const newIndex = Math.round(newY / separation);
         if (newIndex !== dragIndex) {
-            runOnJS(updateOrder)(dragIndex, newIndex);
+            // updateOrder(dragIndex, newIndex);
         }
-        draggingIndex.value = -1;
+        draggingIndex.value = -1; // Reset dragging state
     };
 
     useEffect(() => {
@@ -45,7 +46,6 @@ export const SortableList = () => {
             {list.map((item, index) => {
                 return (
                     <DraggableItem key={index} index={index} draggingIndex={draggingIndex} positions={positions} onDragEnd={handleDragEnd}>
-                        {/* {console.log(typeof Text)} */}
                         <EventBox event={item} />
                     </DraggableItem>
                 )
