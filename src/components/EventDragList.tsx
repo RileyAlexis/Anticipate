@@ -19,8 +19,6 @@ export const EventDragList = () => {
     const dispatch = useDispatch();
 
     const handleOrderChange = useCallback((newData: EventType[]) => {
-        console.log(newData[0].title);
-        console.log(newData[1].title);
         setLocalevents(newData);
     }, []);
 
@@ -39,23 +37,16 @@ export const EventDragList = () => {
             drag();
         }
 
-
         return (
-            // <ScaleDecorator >
             <TouchableOpacity
                 onLongPress={handleMove}
                 disabled={isActive}
                 style={{
-                    // height: 75,
-                    // borderWidth: 1,
-                    // borderColor: 'pink',
                     marginVertical: 5,
                 }}
             >
-                {/* <Text style={{ height: 75 }} onLongPress={drag}>{item.title}</Text> */}
                 <EventBox event={item} isActive={isActive} onLongPress={handleMove} />
             </TouchableOpacity >
-            // </ScaleDecorator>
         )
     }, []);
 
