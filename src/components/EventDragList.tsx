@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import DraggableFlatList, { NestableDraggableFlatList, NestableScrollContainer, RenderItemParams, ScaleDecorator } from "react-native-draggable-flatlist";
-import { Text } from '@ui-kitten/components';
+import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
+import { trigger } from "react-native-haptic-feedback";
+import { useFocusEffect } from "@react-navigation/native";
 
 //Types
 import { AnticipateRootState } from "../redux/types/AnticipateRootState";
@@ -21,28 +22,42 @@ export const EventDragList = () => {
         console.log(newData[0].title);
         console.log(newData[1].title);
         setLocalevents(newData);
-
-        // dispatch(reorderEvents(newData));
     }, []);
 
-    const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<typeof events[0]>) => (
+    //Update redux state when user navigates away
+    useFocusEffect(useCallback(() => {
+        return () => {
+            dispatch(reorderEvents(localevents));
+        };
+    }, [dispatch])
+    );
 
-        <ScaleDecorator>
+    const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<typeof events[0]>) => {
+
+        const handleMove = () => {
+            trigger('impactHeavy', { enableVibrateFallback: true, ignoreAndroidSystemSettings: false });
+            drag();
+        }
+
+
+        return (
+            // <ScaleDecorator >
             <TouchableOpacity
-                onLongPress={drag}
+                onLongPress={handleMove}
                 disabled={isActive}
                 style={{
                     // height: 75,
-                    borderWidth: 1,
-                    borderColor: 'pink',
+                    // borderWidth: 1,
+                    // borderColor: 'pink',
                     marginVertical: 5,
                 }}
             >
                 {/* <Text style={{ height: 75 }} onLongPress={drag}>{item.title}</Text> */}
-                <EventBox event={item} isActive={isActive} onLongPress={drag} />
+                <EventBox event={item} isActive={isActive} onLongPress={handleMove} />
             </TouchableOpacity >
-        </ScaleDecorator>
-    ), []);
+            // </ScaleDecorator>
+        )
+    }, []);
 
 
     return (
@@ -51,7 +66,7 @@ export const EventDragList = () => {
             keyExtractor={(item) => item.id}
             onDragEnd={({ data }) => handleOrderChange(data)}
             renderItem={renderItem}
-            containerStyle={{ flex: 1, paddingHorizontal: 5, overflow: 'scroll' }}
+            containerStyle={{ flex: 1, paddingHorizontal: 5 }}
         />
     );
 }

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Dimensions } from 'react-native';
+import React, { useEffect, useState, useRef } from "react";
+import { Animated, Dimensions } from 'react-native';
 import { Layout, Text, Button, Icon } from "@ui-kitten/components";
 
 //Modules
@@ -28,6 +28,7 @@ export const EventBox: React.FC<EventBoxProps> = ({ event, isActive, onLongPress
         minutes: '',
         seconds: '',
     });
+    const scale = useRef(new Animated.Value(1));
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -37,25 +38,38 @@ export const EventBox: React.FC<EventBoxProps> = ({ event, isActive, onLongPress
         return () => clearInterval(timer);
     }, [dueDate]);
 
+    useEffect(() => {
+        if (isActive) {
+            Animated.spring(scale.current, {
+                toValue: 1.1,
+                useNativeDriver: true,
+            }).start();
+        } else {
+            Animated.spring(scale.current, {
+                toValue: 1,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, [isActive])
+
     return (
         <Layout
             level="2"
             style={{
-                backgroundColor: isActive ? hexToRgba(color, 0.9) : hexToRgba(color, 0.7),
-                transform: [{ scale: isActive ? 1.10 : 1 }],
+                backgroundColor: isActive ? hexToRgba(color, 0.4) : hexToRgba(color, 0.7),
                 height: boxHeight,
                 flexDirection: 'row',
                 borderBlockColor: hexToRgba(color, 1),
                 borderWidth: 2,
                 borderRadius: 12,
                 justifyContent: 'space-around',
-
             }}
         >
             <Layout style={{
                 alignItems: 'stretch',
                 width: '60%',
                 paddingTop: 5,
+                marginLeft: 8,
                 backgroundColor: 'rgba(0,0,0,0)'
             }}>
                 <Text category="h6">{title}</Text>
@@ -67,6 +81,7 @@ export const EventBox: React.FC<EventBoxProps> = ({ event, isActive, onLongPress
             <Layout style={{
                 alignItems: 'flex-start',
                 paddingTop: 5,
+                paddingRight: 8,
                 backgroundColor: 'rgba(0,0,0,0)'
             }}>
                 <Text category="h6">
@@ -85,11 +100,12 @@ export const EventBox: React.FC<EventBoxProps> = ({ event, isActive, onLongPress
             </Layout>
             <Layout style={{
                 backgroundColor: 'rgba(79 79 79 / 0.15)',
-                // alignItems: 'center',
+                alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: 'rgba(57 57 57 / 0.5)',
                 borderWidth: 0.3,
-                borderRadius: 12
+                borderRadius: 12,
+                width: 20,
             }}>
                 <MoreVerticalOutline width={45} height={50} />
 
